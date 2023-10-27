@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quanto_falta_front/screens/login.dart';
+import 'package:quanto_falta_front/screens/login/login_page.dart';
 
 void main() {
   runApp(const MainApp());

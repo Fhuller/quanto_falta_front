@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quanto_falta_front/api/userapi.dart';
-import 'package:quanto_falta_front/screens/login.dart';
+import 'package:quanto_falta_front/screens/login/login_page.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
