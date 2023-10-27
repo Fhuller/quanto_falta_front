@@ -74,7 +74,41 @@ class _LoginState extends State<Login> {
                                   child: const Text('Esqueceu sua senha?'),
                                 ),
                                 ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      try {
+                                        // ignore: non_constant_identifier_names
+                                        String JWT = await UserAPI.login(
+                                            email: emailController.text,
+                                            pwd: passwordController.text);
+                                        if (JWT.toString() != "") {
+                                          // ignore: use_build_context_synchronously
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => HomePage(
+                                                      email:
+                                                          emailController.text,
+                                                    )),
+                                          );
+                                        }
+                                      } catch (e) {
+                                        // ignore: use_build_context_synchronously
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              content: Text('Erro ao logar')),
+                                        );
+                                      }
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            content: Text(
+                                                'Por favor preencha os campos')),
+                                      );
+                                    }
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20),
