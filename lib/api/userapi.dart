@@ -13,4 +13,17 @@ class UserAPI {
 
     return token.value;
   }
+
+  static Future<bool> register(
+      {required String name,
+      required String email,
+      required String pwd}) async {
+    Map data = {'name': name, 'email': email, 'pwd': pwd};
+
+    final jsonData = await Api.post('$apiUrl/users/register/', data);
+
+    if (jsonData.isNotEmpty) return true;
+
+    return false;
+  }
 }
