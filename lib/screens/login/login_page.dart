@@ -83,14 +83,6 @@ class _LoginState extends State<Login> {
                                             pwd: passwordController.text);
                                         if (JWT.toString() != "") {
                                           // ignore: use_build_context_synchronously
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => HomePage(
-                                                      email:
-                                                          emailController.text,
-                                                    )),
-                                          );
                                         }
                                       } catch (e) {
                                         // ignore: use_build_context_synchronously

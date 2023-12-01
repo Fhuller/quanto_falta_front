@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quanto_falta_front/screens/home.dart';
 import 'package:quanto_falta_front/screens/login/login_page.dart';
 import 'package:quanto_falta_front/screens/register.dart';
 
@@ -16,7 +17,8 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.blue),
       routes: {
         '/': (context) => const Login(),
-        '/register': (context) => const Register()
+        '/register': (context) => const Register(),
+        '/homePage': (context) => const HomePage()
       },
       initialRoute: '/',
     );
