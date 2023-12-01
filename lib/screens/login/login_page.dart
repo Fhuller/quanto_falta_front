@@ -83,6 +83,8 @@ class _LoginState extends State<Login> {
                                             pwd: passwordController.text);
                                         if (JWT.toString() != "") {
                                           // ignore: use_build_context_synchronously
+                                          Navigator.of(context)
+                                              .pushNamed('/homePage');
                                         }
                                       } catch (e) {
                                         // ignore: use_build_context_synchronously

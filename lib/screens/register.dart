@@ -165,7 +165,10 @@ class _RegisterState extends State<Register> {
                                 if (await UserAPI.register(
                                     name: _nameController.text,
                                     email: _emailController.text,
-                                    pwd: _passwordController.text)) {
+                                    pwd: _passwordController.text,
+                                    nameCurso: _cursoController.text,
+                                    cargaHoraria:
+                                        int.parse(_horasController.text))) {
                                   // ignore: use_build_context_synchronously
                                   Navigator.push(
                                       context,

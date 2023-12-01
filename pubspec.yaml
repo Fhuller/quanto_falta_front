@@ -12,6 +12,7 @@ dependencies:
   http: ^0.13.4
   brasil_fields: ^1.14.0
   validatorless: ^1.2.3
+  file_picker: ^4.0.0
 
 dev_dependencies:
   flutter_test:
