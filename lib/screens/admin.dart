@@ -9,6 +9,8 @@ class AdminPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _descriptionController = TextEditingController();
+    final List<String> buttonLabels = ['aaaaaaaaaaaaaa', '2', '3', '4', '5'];
+
     return Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(color: context.primaryColor),
@@ -26,7 +28,7 @@ class AdminPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      'Certificados aprovados',
+                      'Certificados não aprovados',
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -35,55 +37,39 @@ class AdminPage extends StatelessWidget {
                   ],
                 ),
               ),
-              
               Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 70),
-                  child: Column(children: [
-
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * .5,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            const Text('Anexar certificado'),
-                            Icon(
-                              CupertinoIcons.paperclip,
-                              size: 20,
-                            )
-                          ],
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: buttonLabels.map((label) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            padding: EdgeInsets.all(6.0),
+                          ),
+                          onPressed: () {
+                            FloatingActionButton(
+                                onPressed: () => {
+                                  build(context)
+                                    });
+                          },
+                          child: Text(
+                            label,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 25.0,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * .5,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: const Text('Enviar'),
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                      ),
-                    )
-                  ]),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
-
               const SizedBox(
                 height: 20,
               ),
@@ -102,7 +88,6 @@ class AdminPage extends StatelessWidget {
                   ],
                 ),
               ),
-
               Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 70),
@@ -139,7 +124,6 @@ class AdminPage extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-
                     SizedBox(
                       width: MediaQuery.of(context).size.width * .5,
                       height: 50,
@@ -184,5 +168,32 @@ class AdminPage extends StatelessWidget {
             ],
           ),
         ));
+  }
+}
+class DialogExample extends StatelessWidget {
+  const DialogExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () => showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('AlertDialog Title'),
+          content: const Text('AlertDialog description'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      ),
+      child: const Text('Show Dialog'),
+    );
   }
 }
