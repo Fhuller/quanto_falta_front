@@ -1,9 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 class Api {
+  static Future<Response> get(String url, Map? data, String? JWT) async {
+    final uri = Uri.parse(url);
+    final body = json.encode(data);
+
+    return await http.get(uri,
+        headers: {"Content-Type": "application/json", "auth-token": JWT ?? ""});
+  }
+
   static Future<Map<String, dynamic>> post(
       String url, Map data, String? JWT) async {
     final uri = Uri.parse(url);
