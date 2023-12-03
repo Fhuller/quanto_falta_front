@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quanto_falta_front/api/userapi.dart';
 import 'package:quanto_falta_front/core/widget/quanto_field.dart';
 import 'package:quanto_falta_front/core/widget/quanto_logo.dart';
+import 'package:quanto_falta_front/models/response.dart';
 import 'package:quanto_falta_front/screens/home.dart';
 import 'package:quanto_falta_front/screens/register.dart';
 import 'package:validatorless/validatorless.dart';
@@ -18,6 +19,7 @@ class _LoginState extends State<Login> {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool admin = false;
   final _emailFocus = FocusNode();
 
   @override
@@ -59,7 +61,7 @@ class _LoginState extends State<Login> {
                               obscureText: true,
                               validator: Validatorless.multiple([
                                 Validatorless.required('Senha obrigatória'),
-                                Validatorless.min(6,
+                                Validatorless.min(3,
                                     'Senha deve conter pelo menos 6 caracteres')
                               ]),
                             ),
@@ -78,15 +80,24 @@ class _LoginState extends State<Login> {
                                     if (_formKey.currentState!.validate()) {
                                       try {
                                         // ignore: non_constant_identifier_names
-                                        String JWT = await UserAPI.login(
+                                        Response res = await UserAPI.login(
                                             email: emailController.text,
-                                            pwd: passwordController.text);
-                                        if (JWT.toString() != "") {
+                                            pwd: passwordController.text,
+                                            );
+                                        if (res.token.toString() != "" && res.admin == false) {
                                           //TROCAR PARA VERIFICAR VIA API
                                           // ignore: use_build_context_synchronously
                                           Navigator.of(context).pushNamed(
                                             '/homePage',
-                                            arguments: JWT,
+                                            arguments: res.token,
+                                          );
+                                        }
+                                        if (res.token.toString() != "" && res.admin == true) {
+                                          //TROCAR PARA VERIFICAR VIA API
+                                          // ignore: use_build_context_synchronously
+                                          Navigator.of(context).pushNamed(
+                                            '/adminPage',
+                                            arguments: res.token,
                                           );
                                         }
                                       } catch (e) {

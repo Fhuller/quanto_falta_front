@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:quanto_falta_front/models/token.dart';
+import 'package:quanto_falta_front/models/response.dart';
 import 'package:quanto_falta_front/services/api.dart';
 import 'package:quanto_falta_front/utils/constants.dart';
 
@@ -13,8 +13,8 @@ class CertificateAPI {
 
     final jsonData = await Api.post('$apiUrl/certificate/upload/', data, JWT);
 
-    final token = Token.fromJson(jsonData['data']);
+    final token = Response.fromJson(jsonData['data']);
 
-    return token.value;
+    return token.token;
   }
 }
