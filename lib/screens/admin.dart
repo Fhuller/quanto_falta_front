@@ -50,12 +50,16 @@ class AdminPage extends StatelessWidget {
                             backgroundColor: Colors.blue,
                             padding: EdgeInsets.all(6.0),
                           ),
-                          onPressed: () {
-                            FloatingActionButton(
-                                onPressed: () => {
-                                  build(context)
-                                    });
-                          },
+                          onPressed: () => showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('AlertDialog Title'),
+                              content: const Text('AlertDialog description'),
+                              actions: <Widget>[
+                                dialogBox(context),
+                              ],
+                            ),
+                          ),
                           child: Text(
                             label,
                             textAlign: TextAlign.center,
@@ -170,30 +174,39 @@ class AdminPage extends StatelessWidget {
         ));
   }
 }
-class DialogExample extends StatelessWidget {
-  const DialogExample({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () => showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text('AlertDialog Title'),
-          content: const Text('AlertDialog description'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'Cancel'),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'OK'),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
+Widget dialogBox(BuildContext context) {
+  return SizedBox(
+    width: 250,
+    height: 120,
+    child: SizedBox(
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, 'download'),
+                child: const Text('Baixar documento'),
+              ),
+            ],
+          ),
+          Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () => Navigator.pop(context, 'refuse'),
+                  child: const Text('Recusar'),
+                ),
+                ElevatedButton(
+                  onPressed: () => Navigator.pop(context, 'accept'),
+                  child: const Text('Aceitar'),
+                ),
+              ])
+        ],
       ),
-      child: const Text('Show Dialog'),
-    );
-  }
+    ),
+  );
 }
