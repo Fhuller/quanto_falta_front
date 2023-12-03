@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:quanto_falta_front/models/token.dart';
+import 'package:quanto_falta_front/models/response.dart';
 import 'package:quanto_falta_front/services/api.dart';
 import 'package:quanto_falta_front/utils/constants.dart';
 
