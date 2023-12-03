@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -43,7 +44,7 @@ class AdminPage extends StatelessWidget {
                   title: Text(capitalizedLabel),
                   content: Text(label['email'] ?? ""),
                   actions: <Widget>[
-                    dialogBox(context, label),
+                    dialogBox(context, label, arguments?['JWT']),
                   ],
                 ),
               ),
@@ -140,7 +141,7 @@ class AdminPage extends StatelessWidget {
   }
 }
 
-Widget dialogBox(BuildContext context, dynamic label) {
+Widget dialogBox(BuildContext context, dynamic label, String JWT) {
   return SizedBox(
     width: 250,
     height: 120,
@@ -152,7 +153,12 @@ Widget dialogBox(BuildContext context, dynamic label) {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  CertificateAPI.download(
+                      filename:
+                          label['file'].split(Platform.pathSeparator).last,
+                      JWT: JWT);
+                },
                 child: const Text('Baixar documento'),
               ),
             ],
@@ -162,11 +168,13 @@ Widget dialogBox(BuildContext context, dynamic label) {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () => Navigator.pop(context, 'accept'),
+                  onPressed: () => Navigator.pop(context, 'refuse'),
                   child: const Text('Recusar'),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    CertificateAPI.validar(id: label['_id'], JWT: JWT);
+                  },
                   child: const Text('Aceitar'),
                 ),
               ])
