@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:quanto_falta_front/api/certificateapi.dart';
 import 'package:quanto_falta_front/api/userapi.dart';
 import 'package:quanto_falta_front/core/widget/quanto_field.dart';
 import 'package:quanto_falta_front/core/widget/quanto_logo.dart';
-import 'package:quanto_falta_front/models/response.dart';
+import 'package:quanto_falta_front/models/response.dart' as response;
 import 'package:quanto_falta_front/screens/home.dart';
 import 'package:quanto_falta_front/screens/register.dart';
 import 'package:validatorless/validatorless.dart';
@@ -80,7 +82,8 @@ class _LoginState extends State<Login> {
                                     if (_formKey.currentState!.validate()) {
                                       try {
                                         // ignore: non_constant_identifier_names
-                                        Response res = await UserAPI.login(
+                                        response.Response res =
+                                            await UserAPI.login(
                                           email: emailController.text,
                                           pwd: passwordController.text,
                                         );
@@ -101,11 +104,25 @@ class _LoginState extends State<Login> {
                                         if (res.token.toString() != "" &&
                                             res.admin == true) {
                                           //TROCAR PARA VERIFICAR VIA API
+
+                                          http.Response? validados =
+                                              await CertificateAPI.getFiles(
+                                                  validated: true,
+                                                  JWT: res.token);
+
+                                          http.Response? nValidados =
+                                              await CertificateAPI.getFiles(
+                                                  validated: false,
+                                                  JWT: res.token);
+
                                           // ignore: use_build_context_synchronously
                                           Navigator.of(context).pushNamed(
-                                            '/adminPage',
-                                            arguments: res.token,
-                                          );
+                                              '/adminPage',
+                                              arguments: {
+                                                'JWT': res.token,
+                                                'validados': validados,
+                                                'nValidados': nValidados
+                                              });
                                         }
                                       } catch (e) {
                                         // ignore: use_build_context_synchronously

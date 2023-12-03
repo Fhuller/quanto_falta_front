@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:quanto_falta_front/models/response.dart';
+import 'package:http/http.dart';
 import 'package:quanto_falta_front/services/api.dart';
 import 'package:quanto_falta_front/utils/constants.dart';
 
@@ -26,5 +26,21 @@ class CertificateAPI {
     }
 
     return "";
+  }
+
+  static Future<Response?> getFiles({
+    required bool validated,
+    required String JWT,
+  }) async {
+    try {
+      final jsonData =
+          await Api.get('$apiUrl/certificate/getAll/$validated', null, JWT);
+
+      return jsonData;
+    } catch (e) {
+      print(e);
+    }
+
+    return null;
   }
 }
