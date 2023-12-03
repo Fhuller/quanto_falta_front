@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,6 +29,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Map<String, dynamic>? arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
+    num cargaH = arguments?['cargaH'];
+    num validatedTime = arguments?['validatedTime'];
+
+    num porcentagem = 100 - (validatedTime / cargaH) * 100;
 
     return Scaffold(
         appBar: AppBar(
@@ -62,9 +68,9 @@ class _HomePageState extends State<HomePage> {
                     radius: 80.0,
                     lineWidth: 13.0,
                     animation: true,
-                    percent: percent,
+                    percent: porcentagem / 100 as double,
                     center: new Text(
-                      "20.0%",
+                      "$porcentagem%",
                       style: new TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 20.0),
                     ),

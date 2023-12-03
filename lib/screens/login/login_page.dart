@@ -81,10 +81,11 @@ class _LoginState extends State<Login> {
                                       try {
                                         // ignore: non_constant_identifier_names
                                         Response res = await UserAPI.login(
-                                            email: emailController.text,
-                                            pwd: passwordController.text,
-                                            );
-                                        if (res.token.toString() != "" && res.admin == false) {
+                                          email: emailController.text,
+                                          pwd: passwordController.text,
+                                        );
+                                        if (res.token.toString() != "" &&
+                                            res.admin == false) {
                                           //TROCAR PARA VERIFICAR VIA API
                                           // ignore: use_build_context_synchronously
                                           Navigator.of(context).pushNamed(
@@ -92,10 +93,13 @@ class _LoginState extends State<Login> {
                                             arguments: {
                                               'JWT': res.token,
                                               'email': emailController.text,
+                                              'cargaH': res.cargaHoraria,
+                                              'validatedTime': res.validatedTime
                                             },
                                           );
                                         }
-                                        if (res.token.toString() != "" && res.admin == true) {
+                                        if (res.token.toString() != "" &&
+                                            res.admin == true) {
                                           //TROCAR PARA VERIFICAR VIA API
                                           // ignore: use_build_context_synchronously
                                           Navigator.of(context).pushNamed(
