@@ -14,6 +14,7 @@ dependencies:
   validatorless: ^1.2.3
   file_picker: ^6.1.1
   permission_handler: ^10.2.0
+  path_provider: ^2.0.14
 
 dev_dependencies:
   flutter_test:
