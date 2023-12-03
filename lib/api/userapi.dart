@@ -7,7 +7,7 @@ class UserAPI {
       {required String email, required String pwd}) async {
     Map data = {'email': email, 'pwd': pwd};
 
-    final jsonData = await Api.post('$apiUrl/users/login/', data);
+    final jsonData = await Api.post('$apiUrl/users/login/', data, null);
 
     final token = Token.fromJson(jsonData['data']);
 
@@ -28,7 +28,7 @@ class UserAPI {
       'cargaHoraria': cargaHoraria
     };
 
-    final jsonData = await Api.post('$apiUrl/users/register/', data);
+    final jsonData = await Api.post('$apiUrl/users/register/', data, null);
 
     if (jsonData.isNotEmpty) return true;
 

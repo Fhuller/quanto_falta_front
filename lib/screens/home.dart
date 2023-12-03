@@ -1,17 +1,33 @@
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:quanto_falta_front/api/certificateapi.dart';
 import 'package:quanto_falta_front/core/ui/theme_extensions.dart';
-import 'package:quanto_falta_front/core/ui/todo_list_icon.dart';
+// ignore: depend_on_referenced_packages
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:quanto_falta_front/core/widget/quanto_field.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  double percent = 0.1;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  var _fileName = 'Anexar Certificado';
+
+  File? fileToSend = null;
 
   @override
   Widget build(BuildContext context) {
-    double percent = 0.1;
-    final _descriptionController = TextEditingController();
+    String JWT = ModalRoute.of(context)?.settings.arguments as String;
+
     return Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(color: context.primaryColor),
@@ -78,32 +94,14 @@ class HomePage extends StatelessWidget {
                   child: Column(children: [
                     QuantoField(
                       label: 'Nome',
+                      controller: nameController,
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(maxHeight: 150),
-                      child: TextField(
-                        controller: _descriptionController,
-                        minLines: 1,
-                        maxLines: 5,
-                        decoration: InputDecoration(
-                          labelText: 'Descrição',
-                          labelStyle: const TextStyle(
-                            fontSize: 15,
-                            color: Colors.black,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: const BorderSide(color: Colors.red),
-                          ),
-                          isDense: true,
-                        ),
-                      ),
+                    QuantoField(
+                      label: 'Horas',
+                      controller: descriptionController,
                     ),
                     const SizedBox(
                       height: 20,
@@ -112,11 +110,29 @@ class HomePage extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * .5,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          FilePickerResult? result =
+                              await FilePicker.platform.pickFiles();
+                          if (result != null) {
+                            if (result != null) {
+                              setState(() {
+                                _fileName = result.files.first.name.toString();
+                              });
+                              var pickedFile = result.files.first;
+                              fileToSend = File(pickedFile.path.toString());
+
+                              print('File name: $_fileName');
+                            } else {
+                              print("Sem permissão de acesso");
+                            }
+                          } else {
+                            // User canceled the picker
+                          }
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            const Text('Anexar certificado'),
+                            Expanded(child: Text(_fileName)),
                             Icon(
                               CupertinoIcons.paperclip,
                               size: 20,
@@ -137,7 +153,20 @@ class HomePage extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * .5,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          if (fileToSend == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Favor enviar arquivo')));
+                          } else {
+                            await CertificateAPI.upload(
+                              name: nameController.text,
+                              description: descriptionController.text,
+                              file: fileToSend,
+                              JWT: JWT,
+                            );
+                          }
+                        },
                         child: const Text('Enviar'),
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
