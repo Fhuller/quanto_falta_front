@@ -96,6 +96,8 @@ class _LoginState extends State<Login> {
                                             arguments: {
                                               'JWT': res.token,
                                               'email': emailController.text,
+                                              'cargaH': res.cargaHoraria,
+                                              'validatedTime': res.validatedTime
                                             },
                                           );
                                         }
