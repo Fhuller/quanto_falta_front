@@ -82,9 +82,12 @@ class _LoginState extends State<Login> {
                                             email: emailController.text,
                                             pwd: passwordController.text);
                                         if (JWT.toString() != "") {
+                                          //TROCAR PARA VERIFICAR VIA API
                                           // ignore: use_build_context_synchronously
-                                          Navigator.of(context)
-                                              .pushNamed('/homePage');
+                                          Navigator.of(context).pushNamed(
+                                            '/homePage',
+                                            arguments: JWT,
+                                          );
                                         }
                                       } catch (e) {
                                         // ignore: use_build_context_synchronously

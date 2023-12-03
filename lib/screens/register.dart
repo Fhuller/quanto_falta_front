@@ -135,6 +135,7 @@ class _RegisterState extends State<Register> {
                         child: QuantoField(
                           label: 'Senha',
                           controller: _passwordController,
+                          obscureText: true,
                           validator: Validatorless.multiple([
                             Validatorless.required('Senha obrigatório'),
                             Validatorless.min(6, 'Senha deve conter 6 digitos')
@@ -146,6 +147,7 @@ class _RegisterState extends State<Register> {
                         child: QuantoField(
                           label: 'Confirma Senha',
                           controller: _confirController,
+                          obscureText: true,
                           validator: Validatorless.multiple([
                             Validatorless.compare(_passwordController,
                                 'As senhas devem ser iguais')

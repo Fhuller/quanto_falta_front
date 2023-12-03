@@ -3,12 +3,14 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class Api {
-  static Future<Map<String, dynamic>> post(String url, Map data) async {
+  static Future<Map<String, dynamic>> post(
+      String url, Map data, String? JWT) async {
     final uri = Uri.parse(url);
     final body = json.encode(data);
 
     final response = await http.post(uri,
-        headers: {"Content-Type": "application/json"}, body: body);
+        headers: {"Content-Type": "application/json", "auth-token": JWT ?? ""},
+        body: body);
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
