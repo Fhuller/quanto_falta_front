@@ -86,7 +86,10 @@ class _LoginState extends State<Login> {
                                           // ignore: use_build_context_synchronously
                                           Navigator.of(context).pushNamed(
                                             '/homePage',
-                                            arguments: JWT,
+                                            arguments: {
+                                              'JWT': JWT,
+                                              'email': emailController.text,
+                                            },
                                           );
                                         }
                                       } catch (e) {
@@ -96,6 +99,8 @@ class _LoginState extends State<Login> {
                                           const SnackBar(
                                               content: Text('Erro ao logar')),
                                         );
+
+                                        print(e);
                                       }
                                     } else {
                                       ScaffoldMessenger.of(context)

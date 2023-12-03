@@ -8,13 +8,23 @@ class CertificateAPI {
       {required String name,
       required String description,
       required File? file,
-      required String JWT}) async {
-    Map data = {'name': name, 'description': description, 'file': file};
+      required String JWT,
+      required String email}) async {
+    try {
+      Map<String, String> data = {
+        'name': name,
+        'description': description,
+        'email': email
+      };
 
-    final jsonData = await Api.post('$apiUrl/certificate/upload/', data, JWT);
+      final jsonData = await Api.postWithFile(
+          '$apiUrl/certificate/upload/', data, JWT, file);
 
-    final token = Token.fromJson(jsonData['data']);
+      return jsonData['file'];
+    } catch (e) {
+      print(e);
+    }
 
-    return token.value;
+    return "";
   }
 }

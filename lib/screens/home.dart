@@ -26,7 +26,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    String JWT = ModalRoute.of(context)?.settings.arguments as String;
+    Map<String, dynamic>? arguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
     return Scaffold(
         appBar: AppBar(
@@ -159,12 +160,25 @@ class _HomePageState extends State<HomePage> {
                                 const SnackBar(
                                     content: Text('Favor enviar arquivo')));
                           } else {
-                            await CertificateAPI.upload(
-                              name: nameController.text,
-                              description: descriptionController.text,
-                              file: fileToSend,
-                              JWT: JWT,
-                            );
+                            if (arguments != null) {
+                              var jwt = arguments['JWT'];
+                              var email = arguments['email'];
+
+                              String? file = await CertificateAPI.upload(
+                                  name: nameController.text,
+                                  description: descriptionController.text,
+                                  file: fileToSend,
+                                  JWT: jwt,
+                                  email: email);
+
+                              if (file != "") {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content:
+                                          Text('Arquivo enviado com sucesso')),
+                                );
+                              }
+                            }
                           }
                         },
                         child: const Text('Enviar'),
